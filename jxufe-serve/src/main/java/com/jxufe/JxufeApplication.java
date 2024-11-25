@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @Slf4j
 @EnableTransactionManagement(proxyTargetClass = true)
-public class HmDianPingApplication {
+public class JxufeApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HmDianPingApplication.class, args);
+        SpringApplication.run(JxufeApplication.class, args);
         log.info("serve begin");
     }
 

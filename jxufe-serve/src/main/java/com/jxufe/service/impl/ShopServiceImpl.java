@@ -7,7 +7,7 @@ import com.jxufe.entity.Shop;
 import com.jxufe.mapper.ShopMapper;
 import com.jxufe.service.IShopService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jxufe.utils.RedisConstants;
+import com.jxufe.constant.RedisConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

@@ -7,7 +7,7 @@ import com.jxufe.mapper.VoucherMapper;
 import com.jxufe.entity.SeckillVoucher;
 import com.jxufe.service.ISeckillVoucherService;
 import com.jxufe.service.IVoucherService;
-import com.jxufe.utils.RedisConstants;
+import com.jxufe.constant.RedisConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

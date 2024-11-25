@@ -1,4 +1,4 @@
-package com.jxufe.utils;
+package com.jxufe.constant;
 
 public class SystemConstants {
 
@@ -10,7 +10,7 @@ public class SystemConstants {
 
     public static final int MAX_PAGE_SIZE = 10;
 
-    public static final String SESSION_CODE = "code";
+    public static final int TOKEN_NUMBER = 8;
 
     public static final String USER_MSG = "userId:";
 

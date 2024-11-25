@@ -3,7 +3,7 @@ package com.jxufe.controller;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.jxufe.dto.Result;
-import com.jxufe.utils.SystemConstants;
+import com.jxufe.constant.SystemConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

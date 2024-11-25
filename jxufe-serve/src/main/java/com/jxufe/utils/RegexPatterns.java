@@ -1,8 +1,10 @@
 package com.jxufe.utils;
 
-/**
- * @author 虎哥
- */
+/*
+ * 格式检验
+ * @author 逍遥
+ * @create 2024/11/25 下午6:57
+ **/
 public abstract class RegexPatterns {
     /**
      * 手机号正则

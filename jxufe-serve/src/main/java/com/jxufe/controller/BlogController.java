@@ -8,7 +8,9 @@ import com.jxufe.entity.Blog;
 import com.jxufe.entity.User;
 import com.jxufe.service.IBlogService;
 import com.jxufe.service.IUserService;
-import com.jxufe.utils.SystemConstants;
+import com.jxufe.constant.SystemConstants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/blog")
+@Api( tags = "博客功能")
 public class BlogController {
 
     private final IBlogService blogService;
@@ -34,6 +37,7 @@ public class BlogController {
      * @author 逍遥
      * @create 2024/11/21 上午10:49
      **/
+    @ApiOperation("查询博客")
     @GetMapping("{id}")
     public Result queryBlog(@PathVariable(name = "id") Integer id){
 
@@ -51,6 +55,7 @@ public class BlogController {
      * @author 逍遥
      * @create 2024/11/21 上午10:43
      **/
+    @ApiOperation("添加博客")
     @PostMapping
     public Result saveBlog(@RequestBody Blog blog) {
         // 获取登录用户
@@ -70,6 +75,7 @@ public class BlogController {
      * @author 逍遥
      * @create 2024/11/21 上午10:44
      **/
+    @ApiOperation("点赞")
     @PutMapping("/like/{id}")
     public Result likeBlog(@PathVariable("id") Long id) {
         // 修改点赞数量
@@ -84,6 +90,7 @@ public class BlogController {
      * @author 逍遥
      * @create 2024/11/21 下午3:42
      **/
+    @ApiOperation("查询点赞")
     @GetMapping("/likes/{id}")
     public Result queryLikeBlog(@PathVariable("id") Long id) {
         // 查询点赞

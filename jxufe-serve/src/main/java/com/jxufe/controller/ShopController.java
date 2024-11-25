@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jxufe.dto.Result;
 import com.jxufe.entity.Shop;
 import com.jxufe.service.IShopService;
-import com.jxufe.utils.SystemConstants;
+import com.jxufe.constant.SystemConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

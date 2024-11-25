@@ -11,14 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * <p>
- * 前端控制器
- * </p>
- *
- * @author 虎哥
- * @since 2021-12-22
- */
+/*
+ * 商店种类相关功能
+ * @author 逍遥
+ * @create 2024/11/25 下午7:25
+ **/
 @RestController
 @RequestMapping("/shop-type")
 public class ShopTypeController {

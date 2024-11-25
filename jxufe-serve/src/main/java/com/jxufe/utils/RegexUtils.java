@@ -2,9 +2,11 @@ package com.jxufe.utils;
 
 import cn.hutool.core.util.StrUtil;
 
-/**
- * @author 虎哥
- */
+/*
+ * 格式检验工具
+ * @author 逍遥
+ * @create 2024/11/25 下午6:57
+ **/
 public class RegexUtils {
     /**
      * 是否是无效手机格式

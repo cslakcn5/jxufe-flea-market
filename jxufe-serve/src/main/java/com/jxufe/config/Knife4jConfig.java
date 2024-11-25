@@ -27,15 +27,14 @@ import java.util.List;
  * @author Eric
  * @date 2023-07-30 22:17
  */
-
 @Configuration
 @EnableSwagger2WebMvc
 public class Knife4jConfig {
 
     private ApiInfo adminApiInfo() {
         return new ApiInfoBuilder()
-                .title("黑马点评")
-                .description("黑马点评接口文档")
+                .title("校园跳蚤市场")
+                .description("接口文档")
                 .version("1.0")
                 .contact(new Contact("逍遥", "https://www.jxufe.top", "1420283526@qq.com"))
                 .build();

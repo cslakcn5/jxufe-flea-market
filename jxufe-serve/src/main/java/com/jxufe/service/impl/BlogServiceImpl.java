@@ -5,7 +5,7 @@ import com.jxufe.entity.Blog;
 import com.jxufe.mapper.BlogMapper;
 import com.jxufe.service.IBlogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jxufe.utils.SystemConstants;
+import com.jxufe.constant.SystemConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

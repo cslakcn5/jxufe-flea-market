@@ -1,19 +1,22 @@
 package com.jxufe.controller;
 
 
+import com.jxufe.constant.ExceptionConstant;
 import com.jxufe.context.BaseContext;
 import com.jxufe.dto.LoginFormDTO;
 import com.jxufe.dto.Result;
 import com.jxufe.entity.UserInfo;
 import com.jxufe.service.IUserInfoService;
 import com.jxufe.service.IUserService;
-import com.jxufe.utils.ExceptionConstant;
 import com.jxufe.utils.RegexUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
@@ -29,7 +32,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-@Api(tags = "用户相关功能")
+@Api(tags = "用户登录功能")
 public class UserController {
 
     private final IUserService userService;
@@ -41,14 +44,14 @@ public class UserController {
      */
     @ApiOperation("发送手机验证码")
     @PostMapping("code")
-    public Result sendCode(@RequestParam("phone") String phone, HttpSession session) {
+    public Result sendCode(@RequestParam("phone") String phone) {
 
         log.info("正在对用户发送手机验证码");
         //进行手机格式验证
         if( RegexUtils.isPhoneInvalid(phone)) {
             return Result.fail(ExceptionConstant.PHONE_EXCEPTION);
         }
-        userService.sendCode(phone, session);
+        userService.sendCode(phone);
         return Result.ok();
     }
 
@@ -58,16 +61,18 @@ public class UserController {
      */
     @ApiOperation("用户登录")
     @PostMapping("/login")
-    public Result login(@RequestBody LoginFormDTO loginForm, HttpSession session){
+    public Result login(@RequestBody LoginFormDTO loginForm){
 
         log.info("正在对用户信息进行校验");
-        return Result.ok(userService.login(loginForm, session));
+        return Result.ok(userService.login(loginForm));
     }
 
-    /**
-     * 登出功能
-     * @return 无
-     */
+    /*
+     * 退出
+     * @return com.jxufe.dto.Result
+     * @author 逍遥
+     * @create 2024/11/25 下午7:36
+     **/
     @ApiOperation("用户退出")
     @PostMapping("/logout")
     public Result logout(){
@@ -101,11 +106,10 @@ public class UserController {
         // 查询详情
         UserInfo info = userInfoService.getById(userId);
         if (info == null) {
-            // 没有详情，应该是第一次查看详情
+            // 尚未注册账号
             return Result.ok();
         }
-        info.setCreateTime(LocalDateTime.now());
-        info.setUpdateTime(LocalDateTime.now());
+
         // 返回
         return Result.ok(info);
     }

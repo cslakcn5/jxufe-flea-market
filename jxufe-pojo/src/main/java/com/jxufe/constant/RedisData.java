@@ -1,4 +1,4 @@
-package com.jxufe.utils;
+package com.jxufe.constant;
 
 import lombok.Data;
 

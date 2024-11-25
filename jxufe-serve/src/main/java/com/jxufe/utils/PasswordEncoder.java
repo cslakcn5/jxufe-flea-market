@@ -6,7 +6,7 @@ import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
 
-public class PasswordEncoder {
+public class    PasswordEncoder {
 
     //密码进行该方法加密后存储
     public static String encode(String password) {
