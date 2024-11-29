@@ -1,10 +1,13 @@
 package com.jxufe.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.jxufe.constant.ExceptionConstant;
 import com.jxufe.context.BaseContext;
 import com.jxufe.dto.LoginFormDTO;
 import com.jxufe.dto.Result;
+import com.jxufe.dto.UserDTO;
+import com.jxufe.entity.User;
 import com.jxufe.entity.UserInfo;
 import com.jxufe.service.IUserInfoService;
 import com.jxufe.service.IUserService;
@@ -43,8 +46,8 @@ public class UserController {
      * 发送手机验证码
      */
     @ApiOperation("发送手机验证码")
-    @PostMapping("code")
-    public Result sendCode(@RequestParam("phone") String phone) {
+    @PostMapping("/code")
+    public Result<Object> sendCode(@RequestParam("phone") String phone) {
 
         log.info("正在对用户发送手机验证码");
         //进行手机格式验证
@@ -61,7 +64,7 @@ public class UserController {
      */
     @ApiOperation("用户登录")
     @PostMapping("/login")
-    public Result login(@RequestBody LoginFormDTO loginForm){
+    public Result<Object> login(@RequestBody LoginFormDTO loginForm){
 
         log.info("正在对用户信息进行校验");
         return Result.ok(userService.login(loginForm));
@@ -75,7 +78,7 @@ public class UserController {
      **/
     @ApiOperation("用户退出")
     @PostMapping("/logout")
-    public Result logout(){
+    public Result<Object> logout(){
 
         return Result.ok();
     }
@@ -88,7 +91,7 @@ public class UserController {
      **/
     @ApiOperation("获得当前用户")
     @GetMapping("/me")
-    public Result me(){
+    public Result<Object> me(){
 
         return Result.ok(userService.getById(BaseContext.getCurrentId()));
     }
@@ -102,7 +105,7 @@ public class UserController {
      **/
     @ApiOperation("查看用户信息")
     @GetMapping("/info/{id}")
-    public Result info(@PathVariable("id") Long userId){
+    public Result<Object> info(@PathVariable("id") Long userId){
         // 查询详情
         UserInfo info = userInfoService.getById(userId);
         if (info == null) {
@@ -112,5 +115,34 @@ public class UserController {
 
         // 返回
         return Result.ok(info);
+    }
+
+    /*
+     * 访问他人主页
+     * @param id
+     * @return com.jxufe.dto.Result<java.lang.Object>
+     * @author 逍遥
+     * @create 2024/11/25 下午11:00
+     **/
+    @ApiOperation("访问他人主页")
+    @GetMapping("/{id}")
+    public Result<Object> queryInfo(@PathVariable("id") Long id){
+
+        User user = userService.getById(id);
+        return Result.ok(BeanUtil.copyProperties(user, UserDTO.class));
+    }
+
+    /*
+     * 用户签到
+     * @return com.jxufe.dto.Result<java.lang.Object>
+     * @author 逍遥
+     * @create 2024/11/29 下午4:32
+     **/
+    @ApiOperation("用户签到")
+    @PostMapping("/sign")
+    public Result<Object> sign(){
+
+        userService.sign();
+        return Result.ok();
     }
 }

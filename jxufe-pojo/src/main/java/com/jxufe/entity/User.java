@@ -16,14 +16,11 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 虎哥
- * @since 2021-12-22
- */
+/*
+ * 用户
+ * @author 逍遥
+ * @create 2024/11/25 下午11:38
+ **/
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)

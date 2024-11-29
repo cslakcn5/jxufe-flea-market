@@ -3,25 +3,20 @@ package com.jxufe.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 虎哥
- * @since 2021-12-22
- */
+/*
+ * 优惠券订单
+ * @author 逍遥
+ * @create 2024/11/29 下午4:27
+ **/
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("tb_voucher_order")
 @Builder
 public class VoucherOrder implements Serializable {
@@ -78,6 +73,5 @@ public class VoucherOrder implements Serializable {
      * 更新时间
      */
     private LocalDateTime updateTime;
-
 
 }

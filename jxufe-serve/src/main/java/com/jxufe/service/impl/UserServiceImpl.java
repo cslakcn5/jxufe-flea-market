@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jxufe.constant.ExceptionConstant;
 import com.jxufe.constant.RedisConstants;
 import com.jxufe.constant.SystemConstants;
+import com.jxufe.context.BaseContext;
 import com.jxufe.dto.LoginFormDTO;
 import com.jxufe.dto.UserDTO;
 import com.jxufe.entity.User;
@@ -18,8 +19,10 @@ import com.jxufe.utils.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
@@ -28,8 +31,6 @@ import java.util.concurrent.TimeUnit;
 
 /*
  * user服务实现
- * @param null
- * @return
  * @author 逍遥
  * @create 2024/9/25 上午11:45
  **/
@@ -105,5 +106,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         // 5.生成随机token作为key并返回
         return jwt;
+    }
+
+   /*
+    * 用户签到
+    * @author 逍遥
+    * @create 2024/11/29 下午4:34
+    **/
+    public void sign() {
+
+        redisTemplate.opsForValue().setBit
+                (RedisConstants.USER_SIGN_KEY + BaseContext.getCurrentId() + ":" +
+                                LocalDate.now().getYear() +
+                                LocalDate.now().getMonthValue(),
+                        LocalDate.now().getDayOfMonth() - 1, true);
     }
 }

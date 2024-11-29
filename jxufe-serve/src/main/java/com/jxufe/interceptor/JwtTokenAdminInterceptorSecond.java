@@ -23,7 +23,8 @@ public class JwtTokenAdminInterceptorSecond implements HandlerInterceptor {
 
         if( ObjUtil.isEmpty(BaseContext.getCurrentId()) ){
             response.setStatus(401);
-            throw new RuntimeException( ExceptionConstant.LOGIN_EXCEPTION );
+            log.error( ExceptionConstant.LOGIN_EXCEPTION );
+            return false;
         }
        return true;
     }

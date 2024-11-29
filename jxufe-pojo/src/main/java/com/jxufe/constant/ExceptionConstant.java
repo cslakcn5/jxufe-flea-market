@@ -11,4 +11,6 @@ public class ExceptionConstant {
     public static String PHONE_EXCEPTION = "你输入的号码格式错误";
 
     public static String STR_EXCEPTION = "不可以输入空字符串";
+
+    public static String FOLLOWED_EXCEPTION = "你关注的账号存在问题";
 }

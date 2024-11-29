@@ -1,18 +1,11 @@
 package com.jxufe.controller;
 
-
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jxufe.context.BaseContext;
 import com.jxufe.dto.Result;
-import com.jxufe.entity.Follow;
 import com.jxufe.service.IFollowService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 /*
  * 关注相关接口
@@ -27,34 +20,47 @@ public class FollowController {
     @Autowired
     private IFollowService service;
 
+    /*
+     * 自己是否关注当前用户
+     * @param followedId
+     * @return com.jxufe.dto.Result<java.lang.Object>
+     * @author 逍遥
+     * @create 2024/11/26 下午5:04
+     **/
     @ApiOperation("是否关注")
     @GetMapping("/or/not/{id}")
-    public Result queryFollowed(@PathVariable(name = "id") Long followedId){
+    public Result<Object> queryFollowed(@PathVariable(name = "id") Long followedId){
 
-        Follow follow = service.lambdaQuery().eq(Follow::getFollowUserId, followedId).eq(Follow::getUserId, BaseContext.getCurrentId()).one();
-        if ( Optional.ofNullable(follow).isEmpty() ) {
-            return Result.ok(false);
-        }
-        return Result.ok(true);
+        return Result.ok(service.queryFollowed(followedId));
     }
 
+    /*
+     * 关注功能
+     * @param followedId
+     * @param isFollow
+     * @return com.jxufe.dto.Result<java.lang.Object>
+     * @author 逍遥
+     * @create 2024/11/26 下午5:08
+     **/
     @ApiOperation("关注或取关")
     @PutMapping("/{id}/{isFollow}")
-    public Result Followed(@PathVariable("id") Long followedId, @PathVariable("isFollow") Boolean isFollow){
+    public Result<Object> followed(@PathVariable("id") Long followedId, @PathVariable("isFollow") Boolean isFollow) {
 
-       if( isFollow ){
-       service.remove(new LambdaQueryWrapper<Follow>()
-               .eq(Follow::getFollowUserId, followedId)
-               .eq(Follow::getUserId, BaseContext.getCurrentId()));
+        service.followed(followedId, isFollow);
+        return Result.ok();
+    }
 
-       return Result.ok();
-       }
-       service.save(
-               Follow.builder()
-                       .followUserId(followedId)
-                       .userId(BaseContext.getCurrentId())
-                       .build());
+    /*
+     * 查询共同好友
+     * @param id
+     * @return com.jxufe.dto.Result<java.lang.Object>
+     * @author 逍遥
+     * @create 2024/11/26 下午5:26
+     **/
+    @ApiOperation("查询共同好友")
+    @GetMapping("/common/{id}")
+    public Result<Object> commonUsers(@PathVariable("id") Long followedId){
 
-       return Result.ok();
+        return Result.ok(service.commonUsers(followedId));
     }
 }

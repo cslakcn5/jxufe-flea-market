@@ -12,10 +12,6 @@ public class SystemConstants {
 
     public static final int TOKEN_NUMBER = 8;
 
-    public static final String USER_MSG = "userId:";
-
     public static final String BLOG_LIKE = "blog:Like:";
-
-    public static final String TOKEN = "token";
 
 }

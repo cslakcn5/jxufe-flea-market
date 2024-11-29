@@ -12,7 +12,11 @@ import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
+/*
+ * 关注信息
+ * @author 逍遥
+ * @create 2024/11/29 下午4:25
+ **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

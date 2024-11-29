@@ -39,7 +39,7 @@ public class BlogController {
      **/
     @ApiOperation("查询博客")
     @GetMapping("{id}")
-    public Result queryBlog(@PathVariable(name = "id") Integer id){
+    public Result<Object> queryBlog(@PathVariable(name = "id") Integer id){
 
         Blog blog = blogService.lambdaQuery().eq(Blog::getId, id).one();
         User user = userService.lambdaQuery().eq(User::getId, blog.getUserId()).one();
@@ -57,15 +57,9 @@ public class BlogController {
      **/
     @ApiOperation("添加博客")
     @PostMapping
-    public Result saveBlog(@RequestBody Blog blog) {
-        // 获取登录用户
-        Long userId =  BaseContext.getCurrentId();
-        User user = userService.getById(userId);
-        blog.setUserId(user.getId());
-        // 保存探店博文
-        blogService.save(blog);
-        // 返回id
-        return Result.ok(blog.getId());
+    public Result<Object> saveBlog(@RequestBody Blog blog) {
+
+        return Result.ok(blogService.saveBlog(blog));
     }
 
     /*
@@ -77,7 +71,7 @@ public class BlogController {
      **/
     @ApiOperation("点赞")
     @PutMapping("/like/{id}")
-    public Result likeBlog(@PathVariable("id") Long id) {
+    public Result<Object> likeBlog(@PathVariable("id") Long id) {
         // 修改点赞数量
         blogService.updateBlog(id);
         return Result.ok();
@@ -92,21 +86,22 @@ public class BlogController {
      **/
     @ApiOperation("查询点赞")
     @GetMapping("/likes/{id}")
-    public Result queryLikeBlog(@PathVariable("id") Long id) {
+    public Result<Object> queryLikeBlog(@PathVariable("id") Long id) {
         // 查询点赞
 
         return Result.ok( blogService.lambdaQuery().eq(Blog::getId, id).one().getLiked() );
     }
     
     /*
-     *
+     * 查询自己的相关博客
      * @param null
      * @return 
      * @author 逍遥
      * @create 2024/11/21 下午3:41
      **/
+    @ApiOperation("查询自己的相关博客")
     @GetMapping("/of/me")
-    public Result queryMyBlog(@RequestParam(value = "current", defaultValue = "1") Integer current) {
+    public Result<Object> queryMyBlog(@RequestParam(value = "current", defaultValue = "1") Integer current) {
         // 获取登录用户
         Long userId =  BaseContext.getCurrentId();
         User user = userService.getById(userId);
@@ -119,7 +114,7 @@ public class BlogController {
     }
 
     @GetMapping("/hot")
-    public Result queryHotBlog(@RequestParam(value = "current", defaultValue = "1") Integer current) {
+    public Result<Object> queryHotBlog(@RequestParam(value = "current", defaultValue = "1") Integer current) {
         // 根据用户查询
         Page<Blog> page = blogService.query()
                 .orderByDesc("liked")
@@ -134,5 +129,42 @@ public class BlogController {
             blog.setIcon(user.getIcon());
         });
         return Result.ok(records);
+    }
+
+    /*
+     * 访问用户主页
+     * @param current
+     * @param id
+     * @return com.jxufe.dto.Result<java.lang.Object>
+     * @author 逍遥
+     * @create 2024/11/25 下午11:08
+     **/
+    @ApiOperation("访问用户主页")
+    @GetMapping("/of/user")
+    public Result<Object> queryBlogByUserId(
+            @RequestParam("current") Integer current,
+            @RequestParam("id") Long id) {
+        // 根据用户查询
+        Page<Blog> page = blogService.lambdaQuery().eq(Blog::getUserId, id).page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE));
+        // 获取当前页数据
+        List<Blog> records = page.getRecords();
+        return Result.ok(records);
+    }
+
+    /*
+     * 推送关注的博客
+     * @param max
+     * @param offset
+     * @return com.jxufe.dto.Result<java.lang.Object>
+     * @author 逍遥
+     * @create 2024/11/28 下午4:53
+     **/
+    @ApiOperation("推送关注的博客")
+    @GetMapping("/of/follow")
+    public Result<Object> pushFollowedBlog(@RequestParam("lastId") Long max,
+                                         @RequestParam(value = "offset", defaultValue = "0")
+                                           Integer offset){
+
+        return Result.ok(blogService.pushFollowedBlog(max, offset)) ;
     }
 }
